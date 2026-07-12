@@ -1,0 +1,32 @@
+WaveStation quick test scenarios
+
+Replace <ESP32_IP> with the LAN IP printed in the serial monitor.
+Run these commands from the test_backend directory.
+
+1. Heartbeat
+python wave_station_test_backend.py <ESP32_IP>
+
+2. MicPCM stream and raw recording
+python wave_station_test_backend.py <ESP32_IP> --subscribe micpcm --pcm-out mic.raw --heartbeat-interval 0
+ffplay -f s16le -ar 16000 -ac 1 mic.raw
+
+3. MicComp Opus frame recording
+python wave_station_test_backend.py <ESP32_IP> --subscribe miccomp --opus-out-dir opus_frames --heartbeat-interval 0
+
+4. IR receive
+python wave_station_test_backend.py <ESP32_IP> --subscribe ir --ir-jsonl ir_raw.jsonl --heartbeat-interval 0
+
+5. IR transmit
+python wave_station_test_backend.py <ESP32_IP> --send-ir-raw "9000,4500,560,560,560,1690" --carrier-hz 38000 --repeat 0 --heartbeat-interval 0
+
+6. Environment sensors
+python wave_station_test_backend.py <ESP32_IP> --subscribe ambient temperature humidity --heartbeat-interval 0
+
+7. Speaker tone
+python wave_station_test_backend.py <ESP32_IP> --send-spkpcm-tone --tone-freq 880 --tone-duration 2 --tone-amp 0.15 --heartbeat-interval 0
+
+8. Speaker WAV
+python wave_station_test_backend.py <ESP32_IP> --send-spkpcm-wav mic.wav --heartbeat-interval 0
+
+9. Speaker Opus frames
+python wave_station_test_backend.py <ESP32_IP> --send-spkcomp-dir opus_frames --heartbeat-interval 0
